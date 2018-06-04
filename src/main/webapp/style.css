@@ -1,0 +1,20 @@
+.error {
+    color: red;
+}
+
+.info {
+    color: blue;
+}
+
+.hidden{
+    display:none;
+}
+
+table, tr, td{
+    border-collapse:collapse;
+    border:thin solid black;
+}
+
+td{
+    padding: 10px;
+}
