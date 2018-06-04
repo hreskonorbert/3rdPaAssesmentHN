@@ -33,7 +33,7 @@ CREATE TABLE insurance_services (
 	service_name TEXT PRIMARY KEY NOT NULL,
 	minimum_salary INTEGER,
 	insurance_length INTEGER,
-	issuer TEXT,
+	insurer TEXT,
 	CHECK (minimum_salary >= 0 AND insurance_length >= 1)
 
 );
@@ -134,7 +134,7 @@ AND license_plate NOT IN (SELECT car_license_plate FROM insurance_bonds);
 
 BEGIN;
 	INSERT INTO insurance_companies (name) VALUES ('testCompany');
-	INSERT INTO insurance_services (service_name,minimum_salary,insurance_length,issuer)
+	INSERT INTO insurance_services (service_name,minimum_salary,insurance_length,insurer)
 	VALUES (
 
 		'serviceForTestCompany',
@@ -156,13 +156,13 @@ SELECT * FROM insurance_companies;
 ----------------------------- Delete insurance company --------------------
 
 DELETE FROM insurance_companies WHERE name = 'testCompany'
-AND name NOT IN (SELECT issuer FROM insurance_services);
+AND name NOT IN (SELECT insurer FROM insurance_services);
 
 ----------------------------------------------------------------------------
 
 ----------------------------- Add new insurance service --------------------
 
-INSERT INTO insurance_services (service_name,minimum_salary,insurance_length,issuer)
+INSERT INTO insurance_services (service_name,minimum_salary,insurance_length,insurer)
 VALUES ('dummyService',400,2,'testCompany');
 
 ----------------------------------------------------------------------------
@@ -175,9 +175,9 @@ SELECT * FROM insurance_services;
 
 ----------------------------- List insurance company services --------------
 
-SELECT service_name, issuer, minimum_salary, insurance_length 
+SELECT service_name, insurer, minimum_salary, insurance_length 
 FROM insurance_services
-WHERE issuer = 'testCompany';
+WHERE insurer = 'testCompany';
 
 ----------------------------------------------------------------------------
 
@@ -231,7 +231,7 @@ WHERE issued_date+insurance_length>date_part('year',current_date);
 
 SELECT name, count(insurance_bonds.insurance_service) FROM insurance_services
 JOIN insurance_bonds ON insurance_bonds.insurance_service = insurance_services.service_name
-JOIN insurance_companies ON insurance_companies.name = insurance_services.issuer
+JOIN insurance_companies ON insurance_companies.name = insurance_services.insurer
 GROUP BY insurance_companies.name
 
 -----------------------------------------------------------------------------
