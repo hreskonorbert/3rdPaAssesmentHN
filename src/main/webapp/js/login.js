@@ -22,7 +22,7 @@ function addTerritory(){
         params.append("territoryName",document.getElementById("territoryNameField").value);
         const xhr = new XMLHttpRequest();
         xhr.addEventListener("load",backToProfile);
-        xhr.open('PUT', 'territoriesServlet');
+        xhr.open('POST', 'territoriesServlet');
         xhr.send(params);
 
 }

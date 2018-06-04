@@ -38,28 +38,12 @@ public final class TerritoryServlet extends AbstractServlet {
         }
     }
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
-        try (Connection connection = getConnection(req.getServletContext())) {
-            TerritoryDao tDao = new TerritoryDao(connection);
-
-                int employeeId = ((Employee)req.getSession().getAttribute("employee")).getId();
-                String territoryId = req.getParameter("territoryName");
-                tDao.addTerritory(employeeId,territoryId);
-                sendMessage(resp, HttpServletResponse.SC_OK, new MessageDto("Insertion executed"));
-
-
-        } catch (SQLException ex) {
-            throw new ServletException(ex);
-        }
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (Connection connection = getConnection(req.getServletContext())) {
             TerritoryDao tDao = new TerritoryDao(connection);
-            if(req.getParameter("territoryName")!=null){
+            if(req.getParameter("territoryName")!=null && req.getParameter("territoryName")!= ""){
                 int employeeId = ((Employee)req.getSession().getAttribute("employee")).getId();
                 String territoryId = req.getParameter("territoryName");
                 tDao.addTerritory(employeeId,territoryId);
